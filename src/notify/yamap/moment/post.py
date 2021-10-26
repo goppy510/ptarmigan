@@ -6,7 +6,7 @@ import sys, os
 
 from ..user import Users
 
-class Posts():
+class Posts:
 
     def __init__(self):
         self.users = Users.Users()
