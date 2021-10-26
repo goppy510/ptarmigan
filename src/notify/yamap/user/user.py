@@ -5,13 +5,11 @@ import requests
 import json
 import sys, os
 
-class Users():
+class Users:
     
     def __init__(self):
         self.config_ini = configparser.ConfigParser()
         self.config_ini.read('config.ini', encoding='utf-8')
-        self.email = self.config_ini['DEFAULT']['email']
-        self.password = self.config_ini['DEFAULT']['password']
 
     
     # トークン取得
