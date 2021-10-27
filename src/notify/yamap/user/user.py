@@ -4,12 +4,20 @@ import configparser
 import requests
 import json
 import sys, os
+import errno
+import logging
+from logging import getLogger, StreamHandler, Formatter
 
 class Users:
     
     def __init__(self):
+        self.logger = getLogger("ptarmigan").getChild(os.path.basename(__file__))
         self.config_ini = configparser.ConfigParser()
-        self.config_ini.read('config.ini', encoding='utf-8')
+        config_ini_path = os.path.dirname(os.path.abspath(__file__)) + '/config.ini'
+        # config.iniが存在しない場合は例外発生させる
+        if not os.path.exists(config_ini_path):
+            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), config_ini_path)
+        self.config_ini.read(config_ini_path, encoding='utf-8')
 
     
     # トークン取得
@@ -30,11 +38,12 @@ class Users:
         url = self.__get_login_url()
         payload = {
             'session': {
-                'email': self.email,
-                'password': self.password
+                'email': self.__get_email(),
+                'password': self.__get_password()
             }
         }
         res = requests.post(url, json=payload)
+        self.logger.info("user login status: " + str(res.status_code))
         return res.json()
     
     # ログインURLを取得する
