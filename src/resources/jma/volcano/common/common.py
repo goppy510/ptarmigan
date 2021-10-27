@@ -25,7 +25,10 @@ class Common:
 
     # for debug
     def get_debug_url(self):
-        url = 'https://www.gpvweather.com/jmaxml-view.php?k=%E5%99%B4%E7%81%AB%E9%80%9F%E5%A0%B1&p=%E6%B0%97%E8%B1%A1%E5%BA%81%E5%9C%B0%E9%9C%87%E7%81%AB%E5%B1%B1%E9%83%A8&ym=2019-08&f=2019-08-07T13%3A10%3A51-a5016fd9-d433-3fc6-9aac-c12bc4edba0b.xml'
+        # 噴火速報テスト用URL
+        # url = 'https://www.gpvweather.com/jmaxml-view.php?k=%E5%99%B4%E7%81%AB%E9%80%9F%E5%A0%B1&p=%E6%B0%97%E8%B1%A1%E5%BA%81%E5%9C%B0%E9%9C%87%E7%81%AB%E5%B1%B1%E9%83%A8&ym=2019-08&f=2019-08-07T13%3A10%3A51-a5016fd9-d433-3fc6-9aac-c12bc4edba0b.xml'
+        # 噴火警報・予報テスト用URL
+        url = 'https://www.gpvweather.com/jmaxml-view.php?k=%E5%99%B4%E7%81%AB%E8%AD%A6%E5%A0%B1%E3%83%BB%E4%BA%88%E5%A0%B1&p=%E7%A6%8F%E5%B2%A1%E7%AE%A1%E5%8C%BA%E6%B0%97%E8%B1%A1%E5%8F%B0&ym=2021-10&f=2021-10-20T02%3A49%3A33-20211020024935_0_VFVO50_400000.xml'
         return self.__parse_url(url)
 
     # 噴火速報のエントリのxmlリンクを返す
@@ -40,7 +43,7 @@ class Common:
 
 
     # 噴火警報・予報のエントリのxmlリンクを返す
-    def get_flash_url(self):
+    def get_alert_url(self):
         entries = self.__get_entry()
         latest = None
         for entry in entries:

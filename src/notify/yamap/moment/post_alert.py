@@ -5,13 +5,14 @@ import json
 import sys, os
 import logging
 from logging import getLogger, StreamHandler, Formatter
+from requests.api import head
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from user.user import Users
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
-from resources.jma.volcano.newsflash.newsflash import Newsflash
+from resources.jma.volcano.alert.alert import Alert
 
-class PostNewsFlash:
+class PostAlert:
 
     def __init__(self):
         self.logger = getLogger("ptarmigan").getChild(os.path.basename(__file__))
@@ -19,8 +20,8 @@ class PostNewsFlash:
         self.user_list_id = int(self.users.get_user_list_id())
         self.public_type = self.users.get_public_type()
 
-        self.newsflash = Newsflash()
-        self.data = self.newsflash.data()
+        self.alert = Alert()
+        self.data = self.alert.data()
 
         # tokenファイルが無い場合は取得する
         self.token = ""
@@ -82,12 +83,33 @@ class PostNewsFlash:
     # 噴火速報の本文を作成する
     def __create_text(self):
         # xmlのデータを整形したやつ
-        mountain = self.data["name"]
+        headline = self.data["headline"]
+        level = self.data["level"]
+        condition = self.data["condition"]
         event_time = self.data["target_time"]
+        activity = self.data["activity"]
+        prevention = self.data["prevention"]
+
         area = self.__area_list()
-        return mountain + "で " + event_time + " 頃、噴火が発生しました。\n\n" \
-            + "下記の地域の方々は今後の情報にご注意ください。\n\n" \
-            + area + "\n\n\n\n" \
+        return headline + "\n\n" \
+            + "■ 警戒レベル ■\n" \
+            + level + "\n" \
+            + condition + "\n\n" \
+            + "■ 発表時刻 ■\n" \
+            + event_time + "\n\n" \
+            + "■ 火山活動の状況及び予報警報事項 ■\n" \
+            + activity + "\n\n"\
+            + "■ 防災上の警戒事項等 ■\n" \
+            + prevention + "\n\n" \
+            + "■ 対象市町村等 ■\n" \
+            + area + "\n\n" \
+            + "＊＊（参考：噴火警戒レベルの説明）＊＊\n" \
+            + "【レベル５（避難）】：危険な居住地域からの避難等が必要。\n" \
+            + "【レベル４（避難準備）】：警戒が必要な居住地域での避難の準備、要配慮者の避難等が必要。\n" \
+            + "【レベル３（入山規制）】：登山禁止や入山規制等危険な地域への立入規制等。状況に応じて要配慮者の避難準備等。\n" \
+            + "【レベル２（火口周辺規制）】：火口周辺への立入規制等。\n" \
+            + "【レベル１（活火山であることに留意）】：状況に応じて火口内への立入規制等。\n" \
+            + "（注：避難や規制の対象地域は、地域の状況や火山活動状況により異なる）\n\n\n\n"\
             + "※この記事は当該ユーザー作成のプログラムによる自動投稿です。"
 
 

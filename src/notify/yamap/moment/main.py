@@ -6,6 +6,7 @@ from logging import getLogger, StreamHandler, FileHandler, Formatter
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from post_newsflash import PostNewsFlash
+from post_alert import PostAlert
 
 
 def main():
@@ -22,10 +23,15 @@ def main():
     logger.addHandler(stream_handler)
     logger.addHandler(file_handler)
 
-    logger.info("---噴火速報処理 start---")
-    post_newsflash = PostNewsFlash()
-    post_newsflash.post()
-    logger.info("---噴火速報処理 end---")
+    # logger.info("---噴火速報処理 start---")
+    # post_newsflash = PostNewsFlash()
+    # post_newsflash.post()
+    # logger.info("---噴火速報処理 end---")
+
+    logger.info("---噴火警報・予報 start---")
+    post_alert = PostAlert()
+    post_alert.post()
+    logger.info("---噴火警報・予報 end---")
     
 
 
