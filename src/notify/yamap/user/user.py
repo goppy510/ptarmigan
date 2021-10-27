@@ -21,6 +21,10 @@ class Users:
     def get_user_list_id(self):
         return self.config_ini['DEFAULT']['user_list_id']
     
+    # 公開ステータス取得
+    def get_public_type(self):
+        return self.config_ini['DEFAULT']['public_type']
+
     # ログインする
     def login(self):
         url = self.__get_login_url()
