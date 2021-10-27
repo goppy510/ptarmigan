@@ -10,7 +10,7 @@ import sys, os
 sys.path.append(os.pardir)
 from common import common
 
-class Xml:
+class Newsflash:
 
     def __init__(self):
         self.common = common.Common()
@@ -18,7 +18,7 @@ class Xml:
         self.pref_row = 2
         self.area_row = 3
 
-    def get_info(self):
+    def data(self):
         result = {}
 
         # テスト用
