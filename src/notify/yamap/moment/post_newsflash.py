@@ -30,6 +30,11 @@ class PostNewsFlash:
         else:
             self.__update_token()
 
+    # データが存在するかチェック
+    def has_data(self):
+        if self.data:
+            return True
+        return False
 
     # YMAAPのモーメントに投稿する
     def post(self):

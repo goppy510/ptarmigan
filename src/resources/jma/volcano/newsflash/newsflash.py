@@ -26,10 +26,9 @@ class Newsflash:
     def data(self):
         result = {}
 
-        # テスト用
-        # if (self.xml_url == None):
-        #     return False
-        parsed = self.common.get_debug_url()
+        if (self.xml_url == None):
+            return False
+        parsed = self.xml_url
 
         # <Control>
         control = parsed[0]
