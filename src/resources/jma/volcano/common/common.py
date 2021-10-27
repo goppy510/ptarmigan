@@ -15,7 +15,7 @@ class Common:
 
     def __init__(self):
         self.config_ini = configparser.ConfigParser()
-        config_ini_path = 'config.ini'
+        config_ini_path = os.path.dirname(os.path.abspath(__file__)) + '/config.ini'
         # config.iniが存在しない場合は例外発生させる
         if not os.path.exists(config_ini_path):
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), config_ini_path)
