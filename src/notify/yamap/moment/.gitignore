@@ -1,2 +1,4 @@
 token
 /log/*
+/timelog/*
+/xml_url/*
