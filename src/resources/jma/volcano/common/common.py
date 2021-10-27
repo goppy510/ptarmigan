@@ -100,5 +100,3 @@ class Common:
     # 噴火警報・予報タイトル
     def __get_alert_title(self):
         return self.config_ini['DEFAULT']['alert_title']
-
-    
