@@ -7,13 +7,18 @@ import configparser
 import pprint
 import time
 import urllib.request
+import requests
 import dateutil.parser
 import sys, os
 import errno
+import logging
+from logging import getLogger, StreamHandler, Formatter
 
 class Common:
 
     def __init__(self):
+        self.logger = getLogger("ptarmigan").getChild(os.path.basename(__file__))
+
         self.config_ini = configparser.ConfigParser()
         config_ini_path = os.path.dirname(os.path.abspath(__file__)) + '/config.ini'
         # config.iniが存在しない場合は例外発生させる
@@ -92,10 +97,12 @@ class Common:
 
 
     def __parse_url(self, url):
-        req = urllib.request.Request(url)
-        with urllib.request.urlopen(req) as response:
-            xml_data = response.read()
-        return ET.fromstring(xml_data)
+        try:
+            response = requests.get(url)
+            self.logger.info(url + "'s status_code: " + str(response.status_code))
+            return ET.fromstring(response.text)
+        except requests.exceptions.RequestException as e:
+            self.logger.error(e)
 
 
     # 噴火速報タイトル

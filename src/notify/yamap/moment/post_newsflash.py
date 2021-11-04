@@ -32,6 +32,7 @@ class PostNewsFlash:
 
     # データが存在するかチェック
     def has_data(self):
+        self.logger.info(self.data)
         if self.data:
             return True
         return False
@@ -46,13 +47,19 @@ class PostNewsFlash:
 
         self.logger.debug("token:" + self.token)
 
-        response = requests.post(url, headers=header, json=payload)
-        self.logger.info("post status code: " + str(response.status_code))
-        # 認証エラー時はtoken再取得して再投稿する
-        if response.status_code == 401 or response.status_code == 400:
-            self.__update_token()
-            self.logger.debug(self.token)
-            requests.post(url, headers=header, json=payload)
+        try:
+            response = requests.post(url, headers=header, json=payload)
+            self.logger.info("post status code: " + str(response.status_code))
+            # 認証エラー時はtoken再取得して再投稿する
+            if response.status_code == 401:
+                self.__update_token()
+                self.logger.debug("Authorized Error. token: " + self.token)
+                self.post()
+            elif response.status_code == 200 or response.status_code == 201:
+                self.logger.info("newsflash request successed. status_code: " + str(response.status_code))
+        except requests.exceptions.RequestException as e:
+            self.logger.error(e)
+            return False
 
 
     # モーメント投稿用のエンドポイント
@@ -73,7 +80,9 @@ class PostNewsFlash:
     def __create_payload(self):
         payload = {
             'journal': {
+                # 内容
                 'text': self.__create_text()
+                # 公開・非公開情報
                 ,'public_type': self.public_type
                 ,'allow_users_list': {
                     'id': self.user_list_id
