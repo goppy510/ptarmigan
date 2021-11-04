@@ -1,4 +1,5 @@
 #!/bin/bash
 
-srcPath=/Users/$(whoami)/git/ptarmigan/src/notify/yamap/moment
-python3 ${srcPath}/main.py
+export PYTHONPATH="/Users/tgoto/Library/Python/3.8/lib/python/site-packages:${PYTHONPATH}"
+srcPath=/Users/tgoto/git/ptarmigan/src/notify/yamap/moment
+/usr/bin/python3 ${srcPath}/main.py

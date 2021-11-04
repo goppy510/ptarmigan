@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import sys, os
@@ -112,6 +113,7 @@ class Mains():
     def __post_newsflash(self):
         self.logger.info("---噴火速報処理 start---")
         post_newsflash = PostNewsFlash()
+        self.logger.info(post_newsflash.has_data())
         if post_newsflash.has_data():
             post_newsflash.post()
         else:
