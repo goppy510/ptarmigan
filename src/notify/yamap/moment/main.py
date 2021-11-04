@@ -113,11 +113,10 @@ class Mains():
     def __post_newsflash(self):
         self.logger.info("---噴火速報処理 start---")
         post_newsflash = PostNewsFlash()
-        self.logger.info(post_newsflash.has_data())
         if post_newsflash.has_data():
             post_newsflash.post()
         else:
-            self.logger.warning("データが無いので実行しません。")
+            self.logger.warning("newsflash: データが無いので実行しません。")
         self.logger.info("---噴火速報処理 end---")
 
     # 噴火警報・予報の処理実行
@@ -127,7 +126,7 @@ class Mains():
         if post_alert.has_data():
             post_alert.post()
         else:
-            self.logger.warning("データが無いので実行しません。")
+            self.logger.warning("alert: データが無いので実行しません。")
         self.logger.info("---噴火警報・予報 end---")
 
 

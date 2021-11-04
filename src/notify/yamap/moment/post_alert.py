@@ -47,13 +47,19 @@ class PostAlert:
 
         self.logger.debug("token:" + self.token)
 
-        response = requests.post(url, headers=header, json=payload)
-        self.logger.info("post status code: " + str(response.status_code))
-        # 認証エラー時はtoken再取得して再投稿する
-        if response.status_code == 401 or response.status_code == 400:
-            self.__update_token()
-            self.logger.debug(self.token)
-            requests.post(url, headers=header, json=payload)
+        try:
+            response = requests.post(url, headers=header, json=payload)
+            self.logger.info("post status code: " + str(response.status_code))
+            # 認証エラー時はtoken再取得して再投稿する
+            if response.status_code == 401:
+                self.__update_token()
+                self.logger.debug("Authorized Error. token: " + self.token)
+                self.post()
+            elif response.status_code == 200 or response.status_code == 201:
+                self.logger.info("newsflash request successed. status code: " + str(response.status_code))
+        except requests.exceptions.RequestException as e:
+            self.logger.error(e)
+            return False
 
 
     # モーメント投稿用のエンドポイント

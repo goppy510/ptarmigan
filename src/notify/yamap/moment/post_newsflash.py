@@ -32,7 +32,6 @@ class PostNewsFlash:
 
     # データが存在するかチェック
     def has_data(self):
-        self.logger.info(self.data)
         if self.data:
             return True
         return False
@@ -56,10 +55,9 @@ class PostNewsFlash:
                 self.logger.debug("Authorized Error. token: " + self.token)
                 self.post()
             elif response.status_code == 200 or response.status_code == 201:
-                self.logger.info("newsflash request successed. status_code: " + str(response.status_code))
+                self.logger.info("newsflash request successed. status code: " + str(response.status_code))
         except requests.exceptions.RequestException as e:
             self.logger.error(e)
-            return False
 
 
     # モーメント投稿用のエンドポイント

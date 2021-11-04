@@ -99,7 +99,7 @@ class Common:
     def __parse_url(self, url):
         try:
             response = requests.get(url)
-            self.logger.info(url + "'s status_code: " + str(response.status_code))
+            self.logger.info("eqvol.xml status code: " + str(response.status_code))
             return ET.fromstring(response.text)
         except requests.exceptions.RequestException as e:
             self.logger.error(e)
