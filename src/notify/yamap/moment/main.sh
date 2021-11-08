@@ -1,5 +1,8 @@
 #!/bin/bash
 
-export PYTHONPATH="/Users/tgoto/Library/Python/3.8/lib/python/site-packages:${PYTHONPATH}"
-srcPath=/Users/tgoto/git/ptarmigan/src/notify/yamap/moment
-/usr/bin/python3 ${srcPath}/main.py
+export PATH=/home/$(whoami)/.pyenv/bin:$PATH
+eval "$(pyenv init -)"
+srcPath=/home/$(whoami)/ptarmigan/src/notify/yamap/moment
+
+/home/$(whoami)/.pyenv/versions/3.10.0/bin/python ${srcPath}/main.py
+
