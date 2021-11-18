@@ -13,9 +13,9 @@ from resources.jma.volcano.common.common import Common
 
 class Mains():
     def __init__(self):
-        self.time_path         = sys.path.append(os.path.dirname(os.path.abspath(__file__))) + '/timelog/updated_time.txt'
-        self.news_path         = sys.path.append(os.path.dirname(os.path.abspath(__file__))) + '/xml_url/newsflash_xml.txt'
-        self.alert_path        = sys.path.append(os.path.dirname(os.path.abspath(__file__))) + '/xml_url/alert_xml.txt'
+        self.time_path         = os.path.dirname(os.path.abspath(__file__)) + '/timelog/updated_time.txt'
+        self.news_path         = os.path.dirname(os.path.abspath(__file__)) + '/xml_url/newsflash_xml.txt'
+        self.alert_path        = os.path.dirname(os.path.abspath(__file__)) + '/xml_url/alert_xml.txt'
         self.common            = Common()
         self.latest_news_xml   = None
         self.local_news_xml    = None
