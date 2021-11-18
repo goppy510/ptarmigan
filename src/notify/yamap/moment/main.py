@@ -38,20 +38,20 @@ class Mains():
         self.logger.addHandler(self.file_handler)
 
     def execute(self):
-        self.update_time = self.common.get_update_time()
+        self.updated_time = self.common.get_update_time()
         self.__execute_news()
         self.__execute_alert()
 
     def __execute_news(self):
         # 最終更新時刻が記録されたファイルの存在チェック
-        if (os.path.exists(self.time_path)):
+        if os.path.exists(self.time_path):
             # 書かれている時刻を読み込む
             self.__read_time_log()
             # xmlのエンドポイントが書かれたファイルがあれば読み込む
-            if (os.path.exists(self.news_path)):
+            if os.path.exists(self.news_path):
                 self.__read_news_xml()
-            if (self.updated_time > self.local_time):
-                if (self.local_news_xml != self.latest_news_xml):
+            if self.updated_time > self.local_time:
+                if self.local_news_xml != self.latest_news_xml:
                     self.__post_newsflash()
         else:
             self.__post_newsflash()
@@ -59,14 +59,14 @@ class Mains():
 
     def __execute_alert(self):
         # 最終更新時刻が記録されたファイルの存在チェック
-        if (os.path.exists(self.time_path)):
+        if os.path.exists(self.time_path):
             # 書かれている時刻を読み込む
             self.__read_time_log()
             # xmlのエンドポイントが書かれたファイルがあれば読み込む
-            if (os.path.exists(self.alert_path)):
+            if os.path.exists(self.alert_path):
                 self.__read_alert_xml()
-            if (self.updated_time > self.local_time):
-                if (self.local_alert_xml != self.latest_alert_xml):
+            if self.updated_time > self.local_time:
+                if self.local_alert_xml != self.latest_alert_xml:
                     self.__post_alert()
         else:
             self.__post_alert()
