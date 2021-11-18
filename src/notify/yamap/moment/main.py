@@ -3,16 +3,20 @@
 import sys, os
 import logging
 from logging import getLogger, StreamHandler, FileHandler, Formatter
+import dateutil.parser
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from post_newsflash import PostNewsFlash
 from post_alert import PostAlert
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+from resources.jma.volcano.common.common import Common
 
 class Mains():
     def __init__(self):
-        self.time_path         = 'timelog/updated_time.txt'
-        self.news_path         = 'xml_url/newsflash_xml.txt'
-        self.alert_path        = 'xml_url/alert_xml.txt'
+        self.time_path         = sys.path.append(os.path.dirname(os.path.abspath(__file__))) + '/timelog/updated_time.txt'
+        self.news_path         = sys.path.append(os.path.dirname(os.path.abspath(__file__))) + '/xml_url/newsflash_xml.txt'
+        self.alert_path        = sys.path.append(os.path.dirname(os.path.abspath(__file__))) + '/xml_url/alert_xml.txt'
+        self.common            = Common()
         self.latest_news_xml   = None
         self.local_news_xml    = None
         self.latest_alert_xml  = None
@@ -34,6 +38,7 @@ class Mains():
         self.logger.addHandler(self.file_handler)
 
     def execute(self):
+        self.update_time = self.common.get_update_time()
         self.__execute_news()
         self.__execute_alert()
 
@@ -50,6 +55,7 @@ class Mains():
                     self.__post_newsflash()
         else:
             self.__post_newsflash()
+            self.__write_time_log()
 
     def __execute_alert(self):
         # 最終更新時刻が記録されたファイルの存在チェック
@@ -64,6 +70,7 @@ class Mains():
                     self.__post_alert()
         else:
             self.__post_alert()
+            self.__write_time_log()
 
 
     # 最後に記録した時間が書かれたファイルを読み込む
@@ -74,7 +81,7 @@ class Mains():
 
     # xmlの時刻が更新されていた場合、その時刻をファイルに書き込む
     def __write_time_log(self):
-        with open(self.__time_path, mode='w') as f:
+        with open(self.time_path, mode='w') as f:
             updated_time = self.updated_time
             updated_time_str = updated_time.strftime('%Y/%m/%d %H:%M:%S%z')
             f.write(updated_time_str)
@@ -104,7 +111,7 @@ class Mains():
 
     # 最後に記録した時間が書かれたファイルを読み込む
     def __read_time_log(self):
-        with open(self.__time_path, mode='r') as f:
+        with open(self.time_path, mode='r') as f:
             self.local_time = f.read()
             self.local_time = dateutil.parser.parse(self.local_time)
 
