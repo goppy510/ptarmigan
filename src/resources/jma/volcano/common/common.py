@@ -100,6 +100,7 @@ class Common:
         try:
             response = requests.get(url)
             self.logger.info("eqvol.xml status code: " + str(response.status_code))
+            response.encoding = response.apparent_encoding
             return ET.fromstring(response.text)
         except requests.exceptions.RequestException as e:
             self.logger.error(e)
