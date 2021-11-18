@@ -50,6 +50,8 @@ class Mains():
             # xmlのエンドポイントが書かれたファイルがあれば読み込む
             if (os.path.exists(self.news_path)):
                 self.__read_news_xml()
+            self.logger.debug(self.updated_time)
+            self.logger.debug(self.local_time)
             if (self.updated_time > self.local_time):
                 if (self.local_news_xml != self.latest_news_xml):
                     self.__post_newsflash()
